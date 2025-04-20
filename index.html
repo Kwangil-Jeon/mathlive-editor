@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <title>MathLive 수식 입력기</title>
 
-  <!-- Mathlive CDN (안전한 jsDelivr 경로) -->
-  <script src="https://cdn.jsdelivr.net/npm/mathlive@0.92.3/dist/mathlive.min.js"></script>
+  <!-- 최신버전 Mathlive CDN 연결 -->
+  <script src="https://cdn.jsdelivr.net/npm/mathlive@1.4.0/dist/mathlive.min.js"></script>
 
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
-      background-color: #97aba4; /* 배경색 너가 설정한 색 */
+      background-color: #97aba4;
     }
     .mathfield {
       width: 100%;
@@ -20,6 +20,7 @@
       padding: 10px;
       border-radius: 8px;
       margin-bottom: 20px;
+      min-height: 50px;
     }
     .output-container {
       display: flex;
@@ -59,25 +60,28 @@
 </div>
 
 <script>
-  const mathInput = document.getElementById('math-input');
-  const latexOutput = document.getElementById('latex-output');
-  const copyButton = document.getElementById('copy-button');
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const mathInput = document.getElementById('math-input');
+    const latexOutput = document.getElementById('latex-output');
+    const copyButton = document.getElementById('copy-button');
 
-  mathInput.addEventListener('input', () => {
-    latexOutput.textContent = mathInput.value;
-  });
+    mathInput.addEventListener('input', () => {
+      latexOutput.textContent = mathInput.getValue('latex');
+    });
 
-  copyButton.addEventListener('click', () => {
-    navigator.clipboard.writeText(mathInput.value)
-      .then(() => {
-        copyButton.textContent = '복사됨!';
-        setTimeout(() => copyButton.textContent = 'LaTeX 복사', 2000);
-      })
-      .catch(err => {
-        console.error('복사 실패:', err);
-      });
+    copyButton.addEventListener('click', () => {
+      navigator.clipboard.writeText(mathInput.getValue('latex'))
+        .then(() => {
+          copyButton.textContent = '복사됨!';
+          setTimeout(() => copyButton.textContent = 'LaTeX 복사', 2000);
+        })
+        .catch(err => {
+          console.error('복사 실패:', err);
+        });
+    });
   });
 </script>
 
 </body>
 </html>
+
