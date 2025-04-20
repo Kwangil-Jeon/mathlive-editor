@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MathLive 수식 입력기</title>
+
+  <!-- Mathlive CDN -->
+  <script src="https://unpkg.com/mathlive/dist/mathlive.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .mathfield {
+      width: 100%;
+      font-size: 24px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .output-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    #latex-output {
+      font-family: monospace;
+      background: #f0f0f0;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    #copy-button {
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #copy-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<h2>수식을 입력하세요</h2>
+
+<!-- 수식 입력창 -->
+<math-field id="math-input" class="mathfield"></math-field>
+
+<!-- 출력과 복사버튼 -->
+<div class="output-container">
+  <div id="latex-output">(여기에 LaTeX 코드 표시됨)</div>
+  <button id="copy-button">LaTeX 복사</button>
+</div>
+
+<script>
+  const mathInput = document.getElementById('math-input');
+  const latexOutput = document.getElementById('latex-output');
+  const copyButton = document.getElementById('copy-button');
+
+  mathInput.addEventListener('input', () => {
+    latexOutput.textContent = mathInput.value;
+  });
+
+  copyButton.addEventListener('click', () => {
+    navigator.clipboard.writeText(mathInput.value)
+      .then(() => {
+        copyButton.textContent = '복사됨!';
+        setTimeout(() => copyButton.textContent = 'LaTeX 복사', 2000);
+      })
+      .catch(err => {
+        console.error('복사 실패:', err);
+      });
+  });
+</script>
+
+</body>
+</html>
